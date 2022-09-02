@@ -3,4 +3,6 @@
 
 typedef unsigned int uint;
 
+enum { false, true };
+
 #endif

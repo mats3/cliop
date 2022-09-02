@@ -10,8 +10,16 @@ OptionsGlobal options_global;
 
 void cliop_option_append(char option, char *description, void *exec_func)
 {
-	if (options_global.count == 0)
-		options_global.array = malloc(OPTION_ALLOC_SIZE * sizeof(Option));
+    static _Bool init = false;
+
+    if (!init)
+    {
+        options_global.array = malloc(OPTION_ALLOC_SIZE * sizeof(Option));
+        init = true;
+    }
+
+    if (options_global.count % OPTION_ALLOC_SIZE == 0)
+        options_global.array = realloc(options_global.array, (options_global.count + OPTION_ALLOC_SIZE) * sizeof(Option));
 
 	options_global.array[options_global.count].option = option;
 	strncpy(options_global.array[options_global.count].description, description, 100);
